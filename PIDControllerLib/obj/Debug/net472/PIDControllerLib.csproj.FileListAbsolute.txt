@@ -1,0 +1,9 @@
+C:\Users\BARBIC\source\repos\PIDControllerLib\obj\Debug\net472\PIDControllerLib.csproj.AssemblyReference.cache
+C:\Users\BARBIC\source\repos\PIDControllerLib\obj\Debug\net472\PIDControllerLib.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\BARBIC\source\repos\PIDControllerLib\obj\Debug\net472\PIDControllerLib.AssemblyInfoInputs.cache
+C:\Users\BARBIC\source\repos\PIDControllerLib\obj\Debug\net472\PIDControllerLib.AssemblyInfo.cs
+C:\Users\BARBIC\source\repos\PIDControllerLib\obj\Debug\net472\PIDControllerLib.csproj.CoreCompileInputs.cache
+C:\Users\BARBIC\source\repos\PIDControllerLib\bin\Debug\net472\PIDControllerLib.dll
+C:\Users\BARBIC\source\repos\PIDControllerLib\bin\Debug\net472\PIDControllerLib.pdb
+C:\Users\BARBIC\source\repos\PIDControllerLib\obj\Debug\net472\PIDControllerLib.dll
+C:\Users\BARBIC\source\repos\PIDControllerLib\obj\Debug\net472\PIDControllerLib.pdb

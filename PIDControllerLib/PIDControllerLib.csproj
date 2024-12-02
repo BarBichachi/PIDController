@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net472;net8.0</TargetFrameworks> <!-- Multi-targeting frameworks -->
+  </PropertyGroup>
+
+  <!-- Specify language version for .NET Framework 4.7.2 (C# 7.3) -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net472'">
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+  <!-- Specify language version for .NET 8.0 (C# 10 or higher) -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <LangVersion>10.0</LangVersion>
+	<ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+</Project>

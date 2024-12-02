@@ -1,0 +1,11 @@
+C:\Users\BARBIC\source\repos\PIDControllerLib\bin\Debug\net8.0\PIDControllerLib.deps.json
+C:\Users\BARBIC\source\repos\PIDControllerLib\bin\Debug\net8.0\PIDControllerLib.dll
+C:\Users\BARBIC\source\repos\PIDControllerLib\bin\Debug\net8.0\PIDControllerLib.pdb
+C:\Users\BARBIC\source\repos\PIDControllerLib\obj\Debug\net8.0\PIDControllerLib.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\BARBIC\source\repos\PIDControllerLib\obj\Debug\net8.0\PIDControllerLib.AssemblyInfoInputs.cache
+C:\Users\BARBIC\source\repos\PIDControllerLib\obj\Debug\net8.0\PIDControllerLib.AssemblyInfo.cs
+C:\Users\BARBIC\source\repos\PIDControllerLib\obj\Debug\net8.0\PIDControllerLib.csproj.CoreCompileInputs.cache
+C:\Users\BARBIC\source\repos\PIDControllerLib\obj\Debug\net8.0\PIDControllerLib.dll
+C:\Users\BARBIC\source\repos\PIDControllerLib\obj\Debug\net8.0\refint\PIDControllerLib.dll
+C:\Users\BARBIC\source\repos\PIDControllerLib\obj\Debug\net8.0\PIDControllerLib.pdb
+C:\Users\BARBIC\source\repos\PIDControllerLib\obj\Debug\net8.0\ref\PIDControllerLib.dll
