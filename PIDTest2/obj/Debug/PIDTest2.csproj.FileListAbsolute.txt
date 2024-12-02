@@ -1,0 +1,15 @@
+C:\Users\BARBIC\source\repos\PIDTest2\bin\Debug\PIDTest2.exe.config
+C:\Users\BARBIC\source\repos\PIDTest2\bin\Debug\PIDTest2.exe
+C:\Users\BARBIC\source\repos\PIDTest2\bin\Debug\PIDTest2.pdb
+C:\Users\BARBIC\source\repos\PIDTest2\obj\Debug\PIDTest2.csproj.AssemblyReference.cache
+C:\Users\BARBIC\source\repos\PIDTest2\obj\Debug\MainWindow.g.cs
+C:\Users\BARBIC\source\repos\PIDTest2\obj\Debug\App.g.cs
+C:\Users\BARBIC\source\repos\PIDTest2\obj\Debug\PIDTest2_MarkupCompile.cache
+C:\Users\BARBIC\source\repos\PIDTest2\obj\Debug\PIDTest2_MarkupCompile.lref
+C:\Users\BARBIC\source\repos\PIDTest2\obj\Debug\MainWindow.baml
+C:\Users\BARBIC\source\repos\PIDTest2\obj\Debug\PIDTest2.g.resources
+C:\Users\BARBIC\source\repos\PIDTest2\obj\Debug\PIDTest2.Properties.Resources.resources
+C:\Users\BARBIC\source\repos\PIDTest2\obj\Debug\PIDTest2.csproj.GenerateResource.cache
+C:\Users\BARBIC\source\repos\PIDTest2\obj\Debug\PIDTest2.csproj.CoreCompileInputs.cache
+C:\Users\BARBIC\source\repos\PIDTest2\obj\Debug\PIDTest2.exe
+C:\Users\BARBIC\source\repos\PIDTest2\obj\Debug\PIDTest2.pdb
