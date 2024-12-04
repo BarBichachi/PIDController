@@ -5,22 +5,39 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PIDTest"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Joystick Simulation" Height="300" Width="400">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+        <!-- Label & TextBox for current velocity -->
+        <Label Content="Current Velocity (°/s)" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" FontSize="16"/>
+        <TextBox Name="VelocityTextBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="200,10,10,0" Width="120" IsReadOnly="True" FontSize="18"/>
 
-        <Label Content="Acceleration:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="10"/>
-        <TextBlock Name="VelocityTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="10" Grid.Row="1"/>
+        <!-- Label & TextBox for total degrees moved -->
+        <Label Content="Total Degrees Moved" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,50,0,0" FontSize="16"/>
+        <TextBox Name="DegreesMovedTextBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="200,50,10,0" Width="120" IsReadOnly="True" FontSize="18"/>
 
-        <Label Content="Joystick Velocity:" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="10" Grid.Row="2"/>
-        <TextBlock Name="DegreeTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="10" Grid.Row="3"/>
+        <!-- Start Simulation Button -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,100,0,0">
+            <Button Content="Start" HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" Height="30" Margin="5" FontSize="16" Click="StartSimulation"/>
+            <Button Content="Stop" HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" Height="30" Margin="5" FontSize="16" Click="StopSimulation"/>
+            <Button Content="Reset" HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" Height="30" Margin="5" FontSize="16" Click="ResetSimulation"/>
+        </StackPanel>
 
-        <Button Content="Start Simulation" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Width="200" Height="50" Margin="10" Grid.Row="4" Click="StartSimulation"/>
+
+        <!-- Velocity Buttons (30, 50, 100) -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="200,100,0,0">
+            <Button Content="30" Width="50" Height="30" Margin="5" FontSize="14" Click="SetTargetVelocity"/>
+            <Button Content="50" Width="50" Height="30" Margin="5" FontSize="14" Click="SetTargetVelocity"/>
+            <Button Content="100" Width="50" Height="30" Margin="5" FontSize="14" Click="SetTargetVelocity"/>
+        </StackPanel>
+
+        <!-- Label & TextBox for elapsed time -->
+        <Label Content="Elapsed Time (seconds)" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,150,0,0" FontSize="16"/>
+        <TextBox Name="ElapsedTimeTextBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="200,150,10,0" Width="120" IsReadOnly="True" FontSize="18"/>
+
+        <!-- Timer Display -->
+        <Label Content="Simulation Status:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,200,0,0" FontSize="14"/>
+        <Label Name="StatusLabel" Content="Waiting to start.." HorizontalAlignment="Left" VerticalAlignment="Top" Margin="200,200,0,0" Width="150" FontSize="14"/>
     </Grid>
+
+
 </Window>

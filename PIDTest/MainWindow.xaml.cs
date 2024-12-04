@@ -1,78 +1,146 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading;
+using System.Timers;
 using System.Windows;
-using System.Windows.Threading;
+using System.Windows.Controls;
+
+using Timer = System.Timers.Timer;
 
 namespace PIDTest
 {
     public partial class MainWindow : Window
     {
-        private PIDController pid1;
-        private PIDController.Object obj1;
-        private DispatcherTimer timer;
-        private double t = 0;
-        private int i = 0;
-        private double command1 = 0;
-        private double stp1 = 30;  // Initial setpoint of 30 degrees
-        private double z1 = 0;
+        private PIDController m_PidController;
+        private PIDController.PhysicalObject m_PhysicalObject;
+        private readonly SynchronizationContext r_SynchronizationContext;
+        private Timer m_Timer;
+        private double m_Time;
+        private double m_PreviousCommand;
+        private double m_TargetVelocity;
+        private double m_CurrentVelocity;
+        private double m_TotalDegreesMoved;
+        private bool m_IsSimulationRunning;
 
         public MainWindow()
         {
             InitializeComponent();
+            InitializeObjectAndController();
+            InitializeTimer();
 
-            // Initialize PIDController and Object
-            obj1 = new PIDController.Object { m = 10, k = 0.5f, F_max = 5, F_min = -5, T = 0.1f, v = 0, z = 0 };
-            pid1 = new PIDController(1.5, 0.0001, 5, obj1);
+            // Capture the SynchronizationContext
+            r_SynchronizationContext = SynchronizationContext.Current;
+        }
 
-            // Set up a timer to update the UI periodically
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(1); // Update every 1 ms
-            timer.Tick += Timer_Tick;
+        private void InitializeTimer()
+        {
+            m_Timer = new Timer(1);
+            m_Timer.Elapsed += TimerElapsed;
+            m_Timer.AutoReset = true;
+        }
+
+        private void InitializeObjectAndController()
+        {
+            m_PhysicalObject = new PIDController.PhysicalObject
+                                   {
+                                       Mass = 10,
+                                       Damping = 0.5,
+                                       MaxForce = 5,
+                                       MinForce = -5,
+                                       TimeStep = 0.1,
+                                       Acceleration = 0,
+                                       Velocity = 0
+                                   };
+
+            m_PidController = new PIDController(1.5, 0.0001, 5, m_PhysicalObject);
         }
 
         private void StartSimulation(object sender, RoutedEventArgs e)
         {
-            timer.Start();
+            if (!m_IsSimulationRunning)
+            {
+                m_IsSimulationRunning = true;
+                m_Time = 0;
+                StatusLabel.Content = "Running..";
+                m_Timer.Start();
+            }
         }
 
-        private double previousCommand = 0; // Add this field to track the previous command
-
-        private void Timer_Tick(object sender, EventArgs e)
+        private void StopSimulation(object sender, RoutedEventArgs e)
         {
-            // Compute control output
-            double targetCommand = pid1.PIDStep(z1, stp1);
-
-            // Apply gradual change to the command
-            double forceStep = obj1.F_max * 0.1; // Adjust this value for smoother transitions
-            if (Math.Abs(targetCommand - previousCommand) > forceStep)
+            if (m_IsSimulationRunning)
             {
-                // Gradually adjust the command
-                targetCommand = previousCommand + Math.Sign(targetCommand - previousCommand) * forceStep;
+                m_IsSimulationRunning = false;
+                m_Timer.Stop();
+                StatusLabel.Content = "Stopped";
             }
-
-            // Saturate the command
-            command1 = Math.Max(Math.Min(targetCommand, obj1.F_max), obj1.F_min);
-
-            // Update object dynamics
-            z1 = PIDController.ObjectStep(obj1, command1);
-
-            // Update the UI
-            VelocityTextBlock.Text = $"{obj1.v:F2} d/s";
-            DegreeTextBlock.Text = $"{obj1.z:F2} d/s";
-
-            // Increment time
-            t += obj1.T;
-            i++;
-
-            // Check if we need to stop
-            if (Math.Abs(z1 - 30) < 0.001 && stp1 == 30)
-            {
-                timer.Stop();
-                VelocityTextBlock.Text = $"{0:F2} d/s";
-            }
-
-            // Store the previous command for the next iteration
-            previousCommand = command1;
         }
 
+        private void ResetSimulation(object sender, RoutedEventArgs e)
+        {
+            // Stop the simulation if running and reset all variables
+            m_IsSimulationRunning = false;
+            m_Time = 0;
+            m_PreviousCommand = 0;
+            m_CurrentVelocity = 0;
+            m_TotalDegreesMoved = 0;
+
+            InitializeTimer();
+            m_Timer.Stop();
+            InitializeObjectAndController();
+
+            // Reset the UI elements
+            VelocityTextBox.Text = "0.00";
+            DegreesMovedTextBox.Text = "0.00";
+            ElapsedTimeTextBox.Text = "0.00";
+            StatusLabel.Content = "Reset";
+        }
+
+        private void SetTargetVelocity(object sender, RoutedEventArgs e)
+        {
+            // Set the target velocity based on the clicked button
+            Button clickedButton = sender as Button;
+            if (clickedButton != null)
+            {
+                if (double.TryParse(clickedButton.Content.ToString(), out double newTarget))
+                {
+                    m_TargetVelocity = newTarget;
+                    StatusLabel.Content = $"Target Velocity: {m_TargetVelocity}°/s";
+                }
+            }
+        }
+
+        private void TimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            // Compute and adjust control output from PID
+            double targetCommand = m_PidController.ComputeControlSignal(m_CurrentVelocity, m_TargetVelocity);
+            double command = m_PreviousCommand + Math.Sign(targetCommand - m_PreviousCommand) * Math.Min(Math.Abs(targetCommand - m_PreviousCommand), m_PhysicalObject.MaxForce);
+            command = Math.Max(Math.Min(command, m_PhysicalObject.MaxForce), m_PhysicalObject.MinForce);
+
+            // Update the object state and total degrees moved
+            m_CurrentVelocity = PIDController.UpdateObjectState(m_PhysicalObject, command);
+            m_TotalDegreesMoved += m_CurrentVelocity / 100;
+
+            // Use SynchronizationContext to update UI
+            r_SynchronizationContext.Post(_ =>
+                {
+                    VelocityTextBox.Text = $"{m_PhysicalObject.Velocity:F2}";
+                    DegreesMovedTextBox.Text = $"{m_TotalDegreesMoved:F2}";
+                    ElapsedTimeTextBox.Text = $"{m_Time:F2}";
+
+                    // Check if velocity has stabilized
+                    if (Math.Abs(m_CurrentVelocity - m_TargetVelocity) < 0.001)
+                    {
+                        StatusLabel.Content = "Stabilized";
+                        //r_Timer.Stop();
+                        //m_IsSimulationRunning = false;
+                    }
+                }, null);
+
+
+            // Update elapsed time and store previous command
+            m_Time += m_PhysicalObject.TimeStep / 10;
+            m_PreviousCommand = command;
+        }
     }
 }
